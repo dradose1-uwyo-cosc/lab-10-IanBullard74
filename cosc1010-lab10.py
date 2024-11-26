@@ -44,7 +44,32 @@ def get_hash(to_hash):
 # - When you find the match, print the plaintext version of the password.
 # - End your loop.
 
-
+from hashlib import sha256
 from pathlib import Path
-path = Path("rockyou.txt")
+
+def get_hash(to_hash):
+    return sha256(to_hash.encode('utf-8')).hexdigest().upper()
+
+hash_path = Path("hash")
+
+try:
+    hash_read = hash_path.read_text()
+except:
+    print("File Not Found.")
+else:
+    hash_read = hash_read.strip()
+
+passwords = Path("rockyou.txt")
+
+try:
+    passwords_read = passwords.read_text()
+except:
+    print("File Not Found")
+else:
+    pass_word = passwords_read.splitlines()
+
+for passw in pass_word:
+    if get_hash(passw.strip()) == hash_read:
+        print(passw)
+        
 
